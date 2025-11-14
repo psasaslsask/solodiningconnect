@@ -1,0 +1,172 @@
+[
+  {
+    "id": 1,
+    "name": "Cobblestones",
+    "location": "Lowell, MA",
+    "image": "/images/cafe_serenity.jpg",
+    "category": {
+      "ambiance": 9,
+      "service": 8,
+      "menu": 7,
+      "reviews": 9,
+      "wait_time": 8,
+      "safety_vibe": 9,
+      "tech_amenities": 7
+    },
+    "summary": "Quiet cafe with window seating, great for solo reading or working.",
+    "soloScore": 8.3
+  },
+  {
+    "id": 2,
+    "name": "Life Alive",
+    "location": "Boston, MA",
+    "image": "/images/urban_bites.jpg",
+    "category": {
+      "ambiance": 6,
+      "service": 7,
+      "menu": 9,
+      "reviews": 6,
+      "wait_time": 9,
+      "safety_vibe": 8,
+      "tech_amenities": 8
+    },
+    "summary": "Modern restaurant with quick service and single-seat counters.",
+    "soloScore": 7.6
+  },
+  {
+    "id": 3,
+    "name": "Eggroll Cafe",
+    "location": "Lowell, MA",
+    "image": "/images/panela_kitchen.jpg",
+    "category": {
+      "ambiance": 7,
+      "service": 9,
+      "menu": 8,
+      "reviews": 8,
+      "wait_time": 7,
+      "safety_vibe": 8,
+      "tech_amenities": 6
+    },
+    "summary": "Friendly staff and peaceful vibe, perfect for a calm dinner alone.",
+    "soloScore": 7.9
+  },
+  {
+    "id": 4,
+    "name": "Sizzling Kitchen",
+    "location": "Lowell, MA",
+    "image": "/images/sizzling_kitchen.jpg",
+    "category": {
+      "ambiance": 8,
+      "service": 8,
+      "menu": 9,
+      "reviews": 9,
+      "wait_time": 7,
+      "safety_vibe": 9,
+      "tech_amenities": 7
+    },
+    "summary": "Fusion Asian spot with cozy booths and sizzling dishes that make solo dining fun.",
+    "soloScore": 8.3
+  },
+  {
+    "id": 5,
+    "name": "Viet Thai Restaurant",
+    "location": "Lowell, MA",
+    "image": "/images/viet_thai.jpg",
+    "category": {
+      "ambiance": 8,
+      "service": 7,
+      "menu": 9,
+      "reviews": 8,
+      "wait_time": 8,
+      "safety_vibe": 8,
+      "tech_amenities": 6
+    },
+    "summary": "Authentic Thai and Vietnamese flavors with quiet seating for solo visitors.",
+    "soloScore": 8.0
+  },
+  {
+    "id": 6,
+    "name": "Tasty Dumplings",
+    "location": "Lowell, MA",
+    "image": "/images/tasty_dumplings.jpg",
+    "category": {
+      "ambiance": 7,
+      "service": 8,
+      "menu": 9,
+      "reviews": 8,
+      "wait_time": 8,
+      "safety_vibe": 8,
+      "tech_amenities": 7
+    },
+    "summary": "Warm, family-run place with fast service and small tables ideal for solo diners.",
+    "soloScore": 8.1
+  },
+  {
+    "id": 7,
+    "name": "BBQ Chicken",
+    "location": "Lowell, MA",
+    "image": "/images/bbq_chicken.jpg",
+    "category": {
+      "ambiance": 7,
+      "service": 8,
+      "menu": 8,
+      "reviews": 7,
+      "wait_time": 8,
+      "safety_vibe": 8,
+      "tech_amenities": 8
+    },
+    "summary": "Korean-style fried chicken served hot and crispy — great for a solo comfort meal.",
+    "soloScore": 7.9
+  },
+  {
+    "id": 8,
+    "name": "1981 Ramen Bar",
+    "location": "Lowell, MA",
+    "image": "/images/1981_ramen.jpg",
+    "category": {
+      "ambiance": 9,
+      "service": 9,
+      "menu": 9,
+      "reviews": 9,
+      "wait_time": 7,
+      "safety_vibe": 9,
+      "tech_amenities": 7
+    },
+    "summary": "Modern ramen spot with bar-style seating — perfect for solo noodle sessions.",
+    "soloScore": 8.7
+  },
+  {
+    "id": 9,
+    "name": "El Petro Mexican Grill",
+    "location": "Lowell, MA",
+    "image": "/images/el_petro.jpg",
+    "category": {
+      "ambiance": 8,
+      "service": 9,
+      "menu": 8,
+      "reviews": 8,
+      "wait_time": 7,
+      "safety_vibe": 9,
+      "tech_amenities": 6
+    },
+    "summary": "Friendly local Mexican grill with vibrant decor and safe, casual solo atmosphere.",
+    "soloScore": 8.1
+  },
+  {
+    "id": 10,
+    "name": "Tacos Lupita",
+    "location": "Lowell, MA",
+    "image": "/images/tacos_lupita.jpg",
+    "category": {
+      "ambiance": 7,
+      "service": 8,
+      "menu": 9,
+      "reviews": 8,
+      "wait_time": 9,
+      "safety_vibe": 8,
+      "tech_amenities": 6
+    },
+    "summary": "Casual Mexican eatery with quick bites and solo-friendly counter spots.",
+    "soloScore": 8.0
+  }
+]
