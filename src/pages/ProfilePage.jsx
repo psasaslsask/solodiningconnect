@@ -14,9 +14,9 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-indigo-50 px-4 py-10">
-      <div className="max-w-xl mx-auto bg-white/80 backdrop-blur border border-slate-100 rounded-3xl shadow-2xl overflow-hidden">
-        <div className="bg-gradient-to-r from-indigo-600 via-sky-500 to-cyan-400 h-28" />
+    <div className="min-h-screen bg-slate-50 px-4 py-10">
+      <div className="max-w-xl mx-auto bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+        <div className="bg-slate-900 h-28" />
         <div className="-mt-14 px-8 pb-8 text-center">
           <img
             src={profile?.image || "/images/default-avatar.png"}

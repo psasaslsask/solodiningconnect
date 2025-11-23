@@ -93,22 +93,22 @@ export default function MyBookings() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-5xl mx-auto px-4 py-10">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-indigo-500 font-semibold">Your plans</p>
+            <p className="text-sm uppercase tracking-[0.2em] text-blue-700 font-semibold">Your plans</p>
             <h1 className="text-3xl font-black text-slate-900">My Bookings</h1>
             <p className="text-slate-600 mt-2">Track upcoming reservations, tweak times, or cancel with one tap.</p>
           </div>
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-100 px-4 py-3 text-right">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 px-4 py-3 text-right">
             <p className="text-sm text-slate-500">Total bookings</p>
-            <p className="text-3xl font-bold text-indigo-600">{bookings.length}</p>
+            <p className="text-3xl font-bold text-blue-700">{bookings.length}</p>
           </div>
         </div>
 
         {bookings.length === 0 ? (
-          <div className="bg-white border border-dashed border-indigo-200 rounded-3xl p-8 text-center shadow-sm">
+          <div className="bg-white border border-dashed border-slate-300 rounded-3xl p-8 text-center shadow-sm">
             <p className="text-lg font-semibold text-slate-800">No bookings yet</p>
             <p className="text-slate-600 mt-2">Browse restaurants and tap “Book now” to see your plans here.</p>
           </div>

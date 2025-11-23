@@ -180,20 +180,20 @@ export default function RestaurantList() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-6xl mx-auto px-4 py-10">
-        <div className="bg-white/70 backdrop-blur rounded-3xl p-6 md:p-10 shadow-xl border border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+        <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
           <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-indigo-500 font-semibold mb-2">Curated for solo diners</p>
+            <p className="text-sm uppercase tracking-[0.2em] text-blue-700 font-semibold mb-2">Curated for solo diners</p>
             <h1 className="text-3xl md:text-4xl font-black text-slate-900">Discover your next spot 🍽️</h1>
             <p className="text-slate-600 mt-3 max-w-2xl">
               Browse handpicked restaurants with transparency on ambiance, service, and tech perks. Tap a card to book instantly—your reservation will sync to the restaurant.
             </p>
           </div>
-          <div className="bg-gradient-to-br from-indigo-500 to-sky-400 text-white rounded-2xl p-5 shadow-lg w-full md:w-64">
-            <p className="text-sm opacity-80">Featured metric</p>
-            <p className="text-4xl font-bold leading-tight">{sortBy === "soloScore" ? "Solo Score" : categoryFields.find((c) => c.key === sortBy)?.label}</p>
-            <p className="text-sm mt-2 text-indigo-100">Sorted high to low so you always see the best first.</p>
+          <div className="bg-blue-50 text-slate-900 rounded-2xl p-5 shadow-sm border border-blue-100 w-full md:w-64">
+            <p className="text-sm text-blue-800">Featured metric</p>
+            <p className="text-4xl font-bold leading-tight text-slate-900">{sortBy === "soloScore" ? "Solo Score" : categoryFields.find((c) => c.key === sortBy)?.label}</p>
+            <p className="text-sm mt-2 text-slate-700">Sorted high to low so you always see the best first.</p>
           </div>
         </div>
 

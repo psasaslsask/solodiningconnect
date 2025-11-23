@@ -94,7 +94,7 @@ export default function DinersPage() {
   const otherDiners = diners.filter((d) => d.id !== profile.id);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-indigo-50 relative px-4 py-8">
+    <div className="min-h-screen bg-slate-50 relative px-4 py-8">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur border border-slate-100 rounded-3xl shadow-xl p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div className="flex items-center space-x-4">
