@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# SoloDiningConnect
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+SoloDiningConnect is a React web app that helps solo diners discover welcoming restaurants, connect with other diners, and manage reservations. The project uses Firebase for authentication and Firestore-backed booking management.
 
-## Available Scripts
+## Quick start
 
-In the project directory, you can run:
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+2. **Run the dev server**
+   ```bash
+   npm start
+   ```
+   The app is served at [http://localhost:3000](http://localhost:3000).
 
-### `npm start`
+> The included Firebase configuration (`src/firebase.js`) is ready for local exploration. If you have your own Firebase project, update that file with your credentials before starting the app.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## What you can do
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Create an account and sign in with Firebase Auth.
+- Browse solo-friendly restaurants, sort them by key criteria, and add new entries.
+- Book a restaurant and manage bookings stored in Firestore (view, edit, cancel).
+- Explore other solo diners and review or edit your profile details.
 
-### `npm test`
+## Guided walkthrough (try the components step by step)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Use this checklist to click through the main flows:
 
-### `npm run build`
+1. **Land on the Welcome page**
+   - Read the brief description and choose either **“I’m a restaurant owner”** or **“I’m a solo diner”** to jump to sign-up.
+2. **Create an account**
+   - On **/signup**, enter an email and password. Submission automatically signs you in and redirects to **/home**.
+3. **Review the Home hub**
+   - From **/home**, choose a card to explore: **Explore Restaurants**, **Explore Diners**, or **My Bookings**.
+4. **Explore restaurants and book one**
+   - On **/restaurants**, try the sort buttons (Ambiance, Service, Menu, Overall Score).
+   - Add a restaurant using the **“Add a New Restaurant”** form (scores are averaged into the Solo Score).
+   - Click any restaurant card to open the booking modal, pick a date/time/guest count, and confirm to save it to Firestore.
+5. **Check and modify your bookings**
+   - Open **/bookings** from the home cards or navbar.
+   - Each booking card lets you **Cancel** or **Modify**. Use **Modify** to adjust date/time/guests and **Save Changes** to write updates back to Firestore.
+6. **Browse other diners**
+   - Visit **/diners** to see sample solo diner profiles.
+7. **Update your profile**
+   - Go to **/profile** to view or edit your saved details.
+8. **Log out**
+   - Use the navbar **Logout** action (available on authenticated routes) to end your session.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Feel free to repeat steps 4–5 with different restaurants to see Firestore updates reflected live on the **My Bookings** page.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Available scripts
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `npm start` — Start the development server.
+- `npm test` — Run tests in watch mode.
+- `npm run build` — Create a production build in `build/`.
 
-### `npm run eject`
+## Project structure highlights
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- `src/App.js` — Route configuration with protected routes for signed-in users.
+- `src/pages/` — Page-level components such as **HomePage**, **RestaurantList**, **DinersPage**, **MyBookings**, **ProfilePage**, **LoginPage**, **SignupPage**, and **WelcomePage**.
+- `src/components/` — Shared UI (e.g., navbar, protected route wrapper).
+- `src/context/AuthContext.js` — Auth provider for Firebase sign-in/sign-up state.
+- `src/data/restaurants.json` — Seed data for the restaurant list.
+- `src/firebase.js` — Firebase app, Auth, and Firestore initialization.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Notes for contributors
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- The app uses React Router for navigation and Tailwind CSS utility classes for styling.
+- Booking creation, edits, and cancellations are persisted under the authenticated user’s Firestore subcollection (`bookings/{userId}/items`).
+- Avoid wrapping imports in try/catch; let bundler errors surface during development.
