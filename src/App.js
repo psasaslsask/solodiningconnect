@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import RestaurantList from "./pages/RestaurantList";
 import DinersPage from "./pages/DinersPage";
 import MyBookings from "./pages/MyBookings";  // ⭐ ADDED
+import RestaurantDashboard from "./pages/RestaurantDashboard";
 
 function App() {
   return (
@@ -50,6 +51,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <DinersPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/restaurant-dashboard"
+            element={
+              <ProtectedRoute>
+                <RestaurantDashboard />
               </ProtectedRoute>
             }
           />

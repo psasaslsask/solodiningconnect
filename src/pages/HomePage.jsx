@@ -18,7 +18,7 @@ export default function HomePage() {
           Choose what you’d like to explore below 👇
         </p>
 
-        <div className="grid md:grid-cols-3 gap-8 w-full max-w-5xl">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-6xl">
           
           {/* Restaurants Card */}
           <div
@@ -53,6 +53,24 @@ export default function HomePage() {
             </h2>
             <p className="text-gray-500 text-sm">
               Connect with solo diners near you and share your experiences.
+            </p>
+          </div>
+
+          {/* Restaurant Dashboard Card */}
+          <div
+            onClick={() => navigate("/restaurant-dashboard")}
+            className="cursor-pointer bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition text-center"
+          >
+            <img
+              src="https://img.freepik.com/free-photo/happy-waiter-serving-food-group-cheerful-friends-pub_637285-8326.jpg"
+              alt="Restaurant Dashboard"
+              className="w-full h-48 object-cover rounded-xl mb-4"
+            />
+            <h2 className="text-2xl font-semibold text-blue-600 mb-2">
+              Restaurant Dashboard
+            </h2>
+            <p className="text-gray-500 text-sm">
+              Track reservations and see guest details for your venue.
             </p>
           </div>
 

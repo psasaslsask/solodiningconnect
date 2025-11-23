@@ -107,18 +107,34 @@ export default function RestaurantList() {
 
     const bookingId = uuidv4();
 
+    const bookingPayload = {
+      id: bookingId,
+      restaurantId: selectedRestaurant.id,
+      restaurantName: selectedRestaurant.name,
+      restaurantImage: selectedRestaurant.image,
+      date: bookingData.date,
+      time: bookingData.time,
+      guests: bookingData.guests,
+      createdAt: new Date().toISOString(),
+      dinerId: profile.id,
+      dinerName: profile.name,
+      dinerEmail: profile.email,
+    };
+
     await setDoc(
       doc(db, "bookings", profile.id.toString(), "items", bookingId),
-      {
-        id: bookingId,
-        restaurantId: selectedRestaurant.id,
-        restaurantName: selectedRestaurant.name,
-        restaurantImage: selectedRestaurant.image,
-        date: bookingData.date,
-        time: bookingData.time,
-        guests: bookingData.guests,
-        createdAt: new Date().toISOString(),
-      }
+      bookingPayload
+    );
+
+    await setDoc(
+      doc(
+        db,
+        "restaurantBookings",
+        selectedRestaurant.id.toString(),
+        "items",
+        bookingId
+      ),
+      bookingPayload
     );
 
     alert(`🎉 Your reservation at ${selectedRestaurant.name} is confirmed!`);
