@@ -58,7 +58,7 @@ function App() {
           <Route
             path="/restaurant-dashboard"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute restaurantOnly>
                 <RestaurantDashboard />
               </ProtectedRoute>
             }
