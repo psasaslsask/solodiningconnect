@@ -22,9 +22,9 @@
     "location": "Boston, MA",
     "image": "/images/urban_bites.jpg",
     "category": {
-      "ambiance": 6,
+      "ambiance": 10,
       "service": 7,
-      "menu": 9,
+      "menu": 10,
       "reviews": 6,
       "wait_time": 9,
       "safety_vibe": 8,

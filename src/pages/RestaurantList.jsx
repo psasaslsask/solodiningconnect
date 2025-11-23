@@ -214,7 +214,7 @@ export default function RestaurantList() {
             <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold">Curated for solo diners</p>
             <h1 className="text-3xl md:text-4xl font-semibold text-slate-900">Discover your next spot</h1>
             <p className="text-slate-600 mt-1 max-w-2xl">
-              Browse restaurants with honest scores for ambiance, service, and tech perks. Tap a card to book instantly—your reservation stays in sync with the restaurant.
+              Browse restaurants with honest scores for ambiance, service, and tech perks. Tap a card to book instantly.
             </p>
           </div>
           <div className="bg-neutral-50 text-slate-900 rounded-2xl p-5 shadow-inner border border-slate-200 w-full md:w-64">
