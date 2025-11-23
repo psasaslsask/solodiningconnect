@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout, isRestaurantUser } = useAuth();
 
   return (
     <header className="bg-white shadow-sm">
@@ -15,8 +15,15 @@ export default function Navbar() {
         <nav className="flex space-x-6 text-gray-700 font-medium">
           {user ? (
             <>
-              <Link to="/home">Home</Link>
-              <Link to="/restaurant-dashboard">Restaurant Dashboard</Link>
+              <Link to="/home">{isRestaurantUser ? "Restaurant Home" : "Home"}</Link>
+              {isRestaurantUser ? (
+                <Link to="/restaurant-dashboard">Dashboard</Link>
+              ) : (
+                <>
+                  <Link to="/restaurants">Restaurants</Link>
+                  <Link to="/bookings">My Bookings</Link>
+                </>
+              )}
               <Link to="/profile">Profile</Link>
               <button onClick={logout} className="text-red-500">Logout</button>
             </>

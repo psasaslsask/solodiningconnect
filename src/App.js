@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import HomePage from "./pages/HomePage";
+import HomeRouter from "./pages/HomeRouter";
 import ProfilePage from "./pages/ProfilePage";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -26,7 +26,7 @@ function App() {
             path="/home"
             element={
               <ProtectedRoute>
-                <HomePage />
+                <HomeRouter />
               </ProtectedRoute>
             }
           />
