@@ -23,6 +23,10 @@ SoloDiningConnect is a React web app that helps solo diners discover welcoming r
 - Book a restaurant and manage bookings stored in Firestore (view, edit, cancel).
 - Explore other solo diners and review or edit your profile details.
 
+## Design language
+
+The UI uses a neutral, content-forward palette (slate and neutral shades) with restrained shadows and simple typography to mirror production booking sites. When adding new screens, follow the same approach: white card backgrounds, slate text, subtle borders, and hover states that nudge rather than distract.
+
 ## Guided walkthrough (try the components step by step)
 
 Use this checklist to click through the main flows:

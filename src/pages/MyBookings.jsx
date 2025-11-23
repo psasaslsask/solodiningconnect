@@ -93,17 +93,17 @@ export default function MyBookings() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-neutral-100">
       <div className="max-w-5xl mx-auto px-4 py-10">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-          <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-blue-700 font-semibold">Your plans</p>
-            <h1 className="text-3xl font-black text-slate-900">My Bookings</h1>
-            <p className="text-slate-600 mt-2">Track upcoming reservations, tweak times, or cancel with one tap.</p>
+          <div className="space-y-1">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold">Your plans</p>
+            <h1 className="text-3xl font-semibold text-slate-900">My Bookings</h1>
+            <p className="text-slate-600">Track upcoming reservations, tweak times, or cancel if plans change.</p>
           </div>
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 px-4 py-3 text-right">
             <p className="text-sm text-slate-500">Total bookings</p>
-            <p className="text-3xl font-bold text-blue-700">{bookings.length}</p>
+            <p className="text-3xl font-semibold text-slate-900">{bookings.length}</p>
           </div>
         </div>
 
@@ -117,7 +117,7 @@ export default function MyBookings() {
             {bookings.map((booking) => (
               <div
                 key={booking.id}
-                className="bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition"
+                className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition"
               >
                 <div className="relative">
                   <img
@@ -125,28 +125,28 @@ export default function MyBookings() {
                     alt={booking.restaurantName}
                     className="w-full h-44 object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-                  <span className="absolute top-3 left-3 bg-white/90 text-slate-900 text-xs font-semibold px-3 py-1 rounded-full shadow">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                  <span className="absolute top-3 left-3 bg-white/90 text-slate-900 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
                     Upcoming
                   </span>
                 </div>
 
                 <div className="p-5 space-y-2">
                   <h2 className="text-xl font-semibold text-slate-900">{booking.restaurantName}</h2>
-                  <p className="text-slate-600">📅 {booking.date} at {booking.time}</p>
-                  <p className="text-slate-700 font-medium">👥 Guests: {booking.guests}</p>
+                  <p className="text-slate-700">{booking.date} at {booking.time}</p>
+                  <p className="text-slate-700 font-medium">Guests: {booking.guests}</p>
 
                   <div className="mt-4 grid grid-cols-2 gap-3">
                     <button
                       onClick={() => handleCancel(booking)}
-                      className="bg-white border border-rose-100 text-rose-600 px-3 py-2 rounded-xl font-semibold hover:bg-rose-50 transition"
+                      className="bg-white border border-slate-300 text-slate-800 px-3 py-2 rounded-xl font-semibold hover:bg-slate-50 transition"
                     >
                       Cancel
                     </button>
 
                     <button
                       onClick={() => setEditBooking(booking)}
-                      className="bg-indigo-600 text-white px-3 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition shadow-sm"
+                      className="bg-slate-900 text-white px-3 py-2 rounded-xl font-semibold hover:bg-slate-800 transition shadow-sm"
                     >
                       Modify
                     </button>
@@ -160,10 +160,10 @@ export default function MyBookings() {
         {/* ⭐ Edit Booking Modal */}
         {editBooking && (
           <div className="fixed inset-0 bg-slate-900/60 flex justify-center items-center z-50 px-4">
-            <div className="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl">
+            <div className="bg-white rounded-3xl w-full max-w-md p-6 shadow-lg border border-slate-200">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-indigo-500 font-semibold">Adjust reservation</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold">Adjust reservation</p>
                   <h2 className="text-2xl font-bold text-slate-900">{editBooking.restaurantName}</h2>
                 </div>
                 <button
@@ -180,7 +180,7 @@ export default function MyBookings() {
                   Date
                   <input
                     type="date"
-                    className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                    className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
                     value={editBooking.date}
                     onChange={(e) =>
                       setEditBooking({ ...editBooking, date: e.target.value })
@@ -192,7 +192,7 @@ export default function MyBookings() {
                   Time
                   <input
                     type="time"
-                    className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                    className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
                     value={editBooking.time}
                     onChange={(e) =>
                       setEditBooking({ ...editBooking, time: e.target.value })
@@ -206,7 +206,7 @@ export default function MyBookings() {
                     type="number"
                     min="1"
                     max="10"
-                    className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                    className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
                     value={editBooking.guests}
                     onChange={(e) =>
                       setEditBooking({ ...editBooking, guests: e.target.value })
@@ -216,7 +216,7 @@ export default function MyBookings() {
 
                 <button
                   onClick={handleEditSave}
-                  className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200"
+                  className="w-full bg-slate-900 text-white py-3 rounded-xl font-semibold hover:bg-slate-800 transition shadow-sm"
                 >
                   Save changes
                 </button>

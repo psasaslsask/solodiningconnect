@@ -180,20 +180,20 @@ export default function RestaurantList() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-neutral-100">
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
-          <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-blue-700 font-semibold mb-2">Curated for solo diners</p>
-            <h1 className="text-3xl md:text-4xl font-black text-slate-900">Discover your next spot 🍽️</h1>
-            <p className="text-slate-600 mt-3 max-w-2xl">
-              Browse handpicked restaurants with transparency on ambiance, service, and tech perks. Tap a card to book instantly—your reservation will sync to the restaurant.
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold">Curated for solo diners</p>
+            <h1 className="text-3xl md:text-4xl font-semibold text-slate-900">Discover your next spot</h1>
+            <p className="text-slate-600 mt-1 max-w-2xl">
+              Browse restaurants with honest scores for ambiance, service, and tech perks. Tap a card to book instantly—your reservation stays in sync with the restaurant.
             </p>
           </div>
-          <div className="bg-blue-50 text-slate-900 rounded-2xl p-5 shadow-sm border border-blue-100 w-full md:w-64">
-            <p className="text-sm text-blue-800">Featured metric</p>
-            <p className="text-4xl font-bold leading-tight text-slate-900">{sortBy === "soloScore" ? "Solo Score" : categoryFields.find((c) => c.key === sortBy)?.label}</p>
-            <p className="text-sm mt-2 text-slate-700">Sorted high to low so you always see the best first.</p>
+          <div className="bg-neutral-50 text-slate-900 rounded-2xl p-5 shadow-inner border border-slate-200 w-full md:w-64">
+            <p className="text-sm text-slate-600">Currently sorting by</p>
+            <p className="text-3xl font-semibold leading-tight text-slate-900">{sortBy === "soloScore" ? "Solo Score" : categoryFields.find((c) => c.key === sortBy)?.label}</p>
+            <p className="text-sm mt-2 text-slate-600">Highest scores show first.</p>
           </div>
         </div>
 
@@ -205,8 +205,8 @@ export default function RestaurantList() {
               onClick={() => handleSort(key)}
               className={`px-4 py-2 rounded-full text-sm font-semibold transition border ${
                 sortBy === key
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 border-indigo-600"
-                  : "bg-white text-slate-700 border-slate-200 hover:border-indigo-200 hover:text-indigo-600"
+                  ? "bg-slate-900 text-white shadow-sm border-slate-900"
+                  : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
               }`}
             >
               {key === "soloScore"
@@ -217,16 +217,16 @@ export default function RestaurantList() {
         </div>
 
         {/* Add Restaurant Form */}
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-xl p-6 md:p-8 mb-10">
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 md:p-8 mb-10">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <div>
-              <p className="text-sm uppercase tracking-[0.2em] text-indigo-500 font-semibold">Contribute</p>
-              <h2 className="text-2xl font-bold text-slate-900">Add a solo-friendly gem</h2>
+              <p className="text-sm uppercase tracking-[0.2em] text-slate-500 font-semibold">Contribute</p>
+              <h2 className="text-2xl font-semibold text-slate-900">Add a solo-friendly gem</h2>
               <p className="text-slate-600 mt-2">Share a spot you love—scores help other diners decide with confidence.</p>
             </div>
             <button
               onClick={handleAddRestaurant}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-emerald-500 text-white font-semibold shadow-lg shadow-emerald-200 hover:bg-emerald-600 transition"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white font-semibold shadow-sm hover:bg-slate-800 transition"
             >
               ➕ Save restaurant
             </button>
@@ -240,7 +240,7 @@ export default function RestaurantList() {
                 value={newRestaurant.name}
                 onChange={handleInputChange}
                 placeholder="e.g., Little Finch Bistro"
-                className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -250,7 +250,7 @@ export default function RestaurantList() {
                 value={newRestaurant.location}
                 onChange={handleInputChange}
                 placeholder="Neighborhood or city"
-                className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -260,7 +260,7 @@ export default function RestaurantList() {
                 value={newRestaurant.image}
                 onChange={handleInputChange}
                 placeholder="Link to a photo (optional)"
-                className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
               />
             </label>
             <label className="flex flex-col gap-1 md:col-span-2">
@@ -270,17 +270,17 @@ export default function RestaurantList() {
                 value={newRestaurant.summary}
                 onChange={handleInputChange}
                 placeholder="What makes it welcoming for solo diners?"
-                className="border border-slate-200 rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                className="border border-slate-200 rounded-lg px-3 py-3 focus:outline-none focus:ring-2 focus:ring-slate-300"
               />
             </label>
 
-            <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl text-sm md:col-span-2">
-              <p className="font-semibold text-indigo-800 mb-1">How scoring works ⭐</p>
-              <p className="text-indigo-700">
-                Each category is rated 0–10. The Solo Score averages all categories for a balanced view of the solo dining experience.
+            <div className="bg-neutral-50 border border-slate-200 p-4 rounded-2xl text-sm md:col-span-2">
+              <p className="font-semibold text-slate-900 mb-1">How scoring works</p>
+              <p className="text-slate-700">
+                Rate each category 0–10. The Solo Score averages them for a balanced view of the solo dining experience.
               </p>
-              <p className="mt-2 text-indigo-700 font-medium">Rate each below:</p>
-              <ul className="list-disc ml-6 text-indigo-700 space-y-1">
+              <p className="mt-2 text-slate-700 font-medium">Rate each below:</p>
+              <ul className="list-disc ml-6 text-slate-700 space-y-1">
                 <li>Ambiance • Service • Menu • Reviews</li>
                 <li>Wait Time • Safety Vibe • Tech Amenities</li>
               </ul>
@@ -288,7 +288,7 @@ export default function RestaurantList() {
 
             {categoryFields.map(({ key, label, description }) => (
               <label key={key} className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                <span className="text-sm font-semibold text-slate-800 flex items-center gap-2">
                   {label}
                   <span className="text-[11px] font-medium text-slate-500 bg-slate-100 rounded-full px-2 py-[2px]">0–10</span>
                 </span>
@@ -300,7 +300,7 @@ export default function RestaurantList() {
                   value={newRestaurant.category[key]}
                   onChange={handleInputChange}
                   placeholder={`Score for ${label}`}
-                  className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
                 />
                 <span className="text-xs text-slate-500">{description}</span>
               </label>
@@ -317,7 +317,7 @@ export default function RestaurantList() {
                 setSelectedRestaurant(r);
                 setBookingOpen(true);
               }}
-              className="group bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition cursor-pointer flex flex-col"
+              className="group bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition cursor-pointer flex flex-col"
             >
               <div className="relative">
                 <img
@@ -325,11 +325,11 @@ export default function RestaurantList() {
                   alt={r.name}
                   className="w-full h-40 object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-                <span className="absolute top-3 left-3 bg-white/90 text-slate-900 text-xs font-semibold px-3 py-1 rounded-full shadow">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                <span className="absolute top-3 left-3 bg-white/90 text-slate-900 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
                   Solo Score {r.soloScore.toFixed(1)}
                 </span>
-                <span className="absolute top-3 right-3 bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow group-hover:scale-105 transition">
+                <span className="absolute top-3 right-3 bg-slate-900 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm group-hover:scale-105 transition">
                   Book now
                 </span>
               </div>
@@ -342,9 +342,9 @@ export default function RestaurantList() {
                 </div>
                 <p className="text-slate-600 text-sm mt-2 flex-1">{r.summary}</p>
                 <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-slate-600">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100">✨ Ambiance {r.category.ambiance}</span>
-                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100">🛎️ Service {r.category.service}</span>
-                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100">📱 Tech {r.category.tech_amenities}</span>
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100">Ambiance {r.category.ambiance}</span>
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100">Service {r.category.service}</span>
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100">Tech {r.category.tech_amenities}</span>
                 </div>
               </div>
             </div>
@@ -355,10 +355,10 @@ export default function RestaurantList() {
       {/* Booking Modal */}
       {bookingOpen && selectedRestaurant && (
         <div className="fixed inset-0 bg-slate-900/60 flex justify-center items-center z-50 px-4">
-          <div className="bg-white rounded-3xl w-full max-w-md shadow-2xl p-6">
+          <div className="bg-white rounded-3xl w-full max-w-md shadow-lg border border-slate-200 p-6">
             <div className="flex justify-between items-center mb-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-indigo-500 font-semibold">Reservation</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold">Reservation</p>
                 <h2 className="text-2xl font-bold text-slate-900">Book {selectedRestaurant.name}</h2>
               </div>
               <button
@@ -379,7 +379,7 @@ export default function RestaurantList() {
                   onChange={(e) =>
                     setBookingData({ ...bookingData, date: e.target.value })
                   }
-                  className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
                 />
               </label>
 
@@ -391,7 +391,7 @@ export default function RestaurantList() {
                   onChange={(e) =>
                     setBookingData({ ...bookingData, time: e.target.value })
                   }
-                  className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
                 />
               </label>
 
@@ -405,7 +405,7 @@ export default function RestaurantList() {
                   onChange={(e) =>
                     setBookingData({ ...bookingData, guests: e.target.value })
                   }
-                  className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="border border-slate-200 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-slate-300"
                   placeholder="Guests"
                 />
                 <span className="text-[11px] text-slate-500">We save your details to keep the restaurant in sync.</span>
@@ -413,7 +413,7 @@ export default function RestaurantList() {
 
               <button
                 onClick={handleConfirmBooking}
-                className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200"
+                className="w-full bg-slate-900 text-white py-3 rounded-xl font-semibold hover:bg-slate-800 transition shadow-sm"
               >
                 Confirm booking
               </button>
