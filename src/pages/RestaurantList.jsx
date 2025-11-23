@@ -40,6 +40,44 @@ export default function RestaurantList() {
     soloScore: 0,
   });
 
+  const categoryFields = [
+    {
+      key: "ambiance",
+      label: "Ambiance",
+      description: "Atmosphere, seating comfort, lighting",
+    },
+    {
+      key: "service",
+      label: "Service",
+      description: "Friendliness, attentiveness, solo-diner welcome",
+    },
+    {
+      key: "menu",
+      label: "Menu",
+      description: "Options for solo diners, flexibility, value",
+    },
+    {
+      key: "reviews",
+      label: "Reviews",
+      description: "Reputation and guest feedback",
+    },
+    {
+      key: "wait_time",
+      label: "Wait Time",
+      description: "Typical seating and service speed",
+    },
+    {
+      key: "safety_vibe",
+      label: "Safety Vibe",
+      description: "Comfort dining alone, neighborhood feel",
+    },
+    {
+      key: "tech_amenities",
+      label: "Tech Amenities",
+      description: "Wi‑Fi, outlets, payment tech",
+    },
+  ];
+
   useEffect(() => {
     setRestaurants(restaurantsData);
   }, []);
@@ -214,18 +252,23 @@ export default function RestaurantList() {
             </ul>
           </div>
 
-          {Object.keys(newRestaurant.category).map((cat) => (
-            <input
-              key={cat}
-              name={cat}
-              type="number"
-              min="0"
-              max="10"
-              value={newRestaurant.category[cat]}
-              onChange={handleInputChange}
-              placeholder={`${cat} (0–10)`}
-              className="border rounded p-2"
-            />
+          {categoryFields.map(({ key, label, description }) => (
+            <label key={key} className="flex flex-col gap-1">
+              <span className="text-sm font-medium text-gray-700">
+                {label} <span className="text-xs text-gray-500">(0–10)</span>
+              </span>
+              <input
+                name={key}
+                type="number"
+                min="0"
+                max="10"
+                value={newRestaurant.category[key]}
+                onChange={handleInputChange}
+                placeholder={`Score for ${label}`}
+                className="border rounded p-2"
+              />
+              <span className="text-xs text-gray-500">{description}</span>
+            </label>
           ))}
         </div>
 
