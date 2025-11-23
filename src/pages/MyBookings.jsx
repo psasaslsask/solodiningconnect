@@ -29,10 +29,22 @@ export default function MyBookings() {
   }, [profile]);
 
   // Cancel booking
-  const handleCancel = async (bookingId) => {
+  const handleCancel = async (booking) => {
     await deleteDoc(
-      doc(db, "bookings", profile.id.toString(), "items", bookingId)
+      doc(db, "bookings", profile.id.toString(), "items", booking.id)
     );
+
+    if (booking.restaurantId) {
+      await deleteDoc(
+        doc(
+          db,
+          "restaurantBookings",
+          booking.restaurantId.toString(),
+          "items",
+          booking.id
+        )
+      );
+    }
     alert("Booking canceled ❌");
   };
 
@@ -51,6 +63,22 @@ export default function MyBookings() {
       time: editBooking.time,
       guests: editBooking.guests,
     });
+
+    if (editBooking.restaurantId) {
+      const restaurantRef = doc(
+        db,
+        "restaurantBookings",
+        editBooking.restaurantId.toString(),
+        "items",
+        editBooking.id
+      );
+
+      await updateDoc(restaurantRef, {
+        date: editBooking.date,
+        time: editBooking.time,
+        guests: editBooking.guests,
+      });
+    }
 
     alert("Booking updated! 🎉");
     setEditBooking(null);
@@ -94,7 +122,7 @@ export default function MyBookings() {
 
                 <div className="mt-3 flex space-x-2">
                   <button
-                    onClick={() => handleCancel(booking.id)}
+                    onClick={() => handleCancel(booking)}
                     className="flex-1 bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
                   >
                     Cancel

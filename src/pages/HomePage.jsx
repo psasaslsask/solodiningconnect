@@ -8,72 +8,99 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#FFF9EC] flex flex-col items-center justify-center p-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-          Welcome to SoloDiningConnect 🍽️
-        </h1>
-
-        <p className="text-gray-600 text-center max-w-lg mb-10">
-          Discover restaurants ideal for solo diners, or connect with like-minded people who enjoy dining alone.  
-          Choose what you’d like to explore below 👇
-        </p>
-
-        <div className="grid md:grid-cols-3 gap-8 w-full max-w-5xl">
-          
-          {/* Restaurants Card */}
-          <div
-            onClick={() => navigate("/restaurants")}
-            className="cursor-pointer bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition text-center"
-          >
-            <img
-              src="https://img.freepik.com/free-photo/modern-coffee-shop-interior_23-2148895024.jpg"
-              alt="Restaurants"
-              className="w-full h-48 object-cover rounded-xl mb-4"
-            />
-            <h2 className="text-2xl font-semibold text-blue-600 mb-2">
-              Explore Restaurants
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Find solo-friendly restaurants based on ambiance, service, and more.
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-50">
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="text-center space-y-4 mb-14">
+            <span className="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-400/30">
+              Solo-friendly dining
+            </span>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+              Welcome to SoloDiningConnect 🍽️
+            </h1>
+            <p className="text-slate-200/80 max-w-3xl mx-auto text-lg leading-relaxed">
+              Discover restaurants tailored for solo diners, connect with like-minded food lovers, and manage your reservations with ease.
             </p>
           </div>
 
-          {/* Diners Card */}
-          <div
-            onClick={() => navigate("/diners")}
-            className="cursor-pointer bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition text-center"
-          >
-            <img
-              src="https://img.freepik.com/free-photo/friends-having-lunch-together_53876-64987.jpg"
-              alt="Diners"
-              className="w-full h-48 object-cover rounded-xl mb-4"
-            />
-            <h2 className="text-2xl font-semibold text-blue-600 mb-2">
-              Explore Diners
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Connect with solo diners near you and share your experiences.
-            </p>
-          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Restaurants Card */}
+            <button
+              onClick={() => navigate("/restaurants")}
+              className="group relative overflow-hidden bg-white/5 border border-white/10 rounded-2xl p-6 text-left shadow-2xl hover:-translate-y-1 hover:shadow-emerald-500/20 transition transform"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-indigo-500/10 opacity-0 group-hover:opacity-100 transition" />
+              <div className="flex items-center justify-between mb-4">
+                <div className="h-12 w-12 rounded-xl bg-emerald-500/20 text-emerald-200 flex items-center justify-center text-xl">
+                  🍱
+                </div>
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-200/80">
+                  Browse
+                </span>
+              </div>
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                Explore Restaurants
+              </h2>
+              <p className="text-slate-200/80 text-sm leading-relaxed">
+                Find solo-friendly spots by ambiance, seating style, and chef-loved menus.
+              </p>
+              <div className="mt-5 inline-flex items-center text-emerald-200 font-semibold text-sm">
+                View listings
+                <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
+              </div>
+            </button>
 
-          {/* ⭐ MY BOOKINGS Card */}
-          <div
-            onClick={() => navigate("/bookings")}
-            className="cursor-pointer bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition text-center"
-          >
-            <img
-              src="https://img.freepik.com/free-photo/calendar-composition-with-smartphone_23-2149816058.jpg"
-              alt="My Bookings"
-              className="w-full h-48 object-cover rounded-xl mb-4"
-            />
-            <h2 className="text-2xl font-semibold text-purple-600 mb-2">
-              My Bookings
-            </h2>
-            <p className="text-gray-500 text-sm">
-              View, modify, or cancel your restaurant reservations.
-            </p>
-          </div>
+            {/* Diners Card */}
+            <button
+              onClick={() => navigate("/diners")}
+              className="group relative overflow-hidden bg-white/5 border border-white/10 rounded-2xl p-6 text-left shadow-2xl hover:-translate-y-1 hover:shadow-indigo-500/20 transition transform"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition" />
+              <div className="flex items-center justify-between mb-4">
+                <div className="h-12 w-12 rounded-xl bg-indigo-500/20 text-indigo-200 flex items-center justify-center text-xl">
+                  🧑‍🍳
+                </div>
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-200/80">
+                  Connect
+                </span>
+              </div>
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                Explore Diners
+              </h2>
+              <p className="text-slate-200/80 text-sm leading-relaxed">
+                Meet fellow solo diners, swap recommendations, and plan your next table.
+              </p>
+              <div className="mt-5 inline-flex items-center text-indigo-200 font-semibold text-sm">
+                Browse community
+                <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
+              </div>
+            </button>
 
+            {/* ⭐ MY BOOKINGS Card */}
+            <button
+              onClick={() => navigate("/bookings")}
+              className="group relative overflow-hidden bg-white/5 border border-white/10 rounded-2xl p-6 text-left shadow-2xl hover:-translate-y-1 hover:shadow-purple-500/20 transition transform"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10 opacity-0 group-hover:opacity-100 transition" />
+              <div className="flex items-center justify-between mb-4">
+                <div className="h-12 w-12 rounded-xl bg-purple-500/20 text-purple-200 flex items-center justify-center text-xl">
+                  📅
+                </div>
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-200/80">
+                  Manage
+                </span>
+              </div>
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                My Bookings
+              </h2>
+              <p className="text-slate-200/80 text-sm leading-relaxed">
+                Review, adjust, or cancel reservations without losing your spot.
+              </p>
+              <div className="mt-5 inline-flex items-center text-purple-200 font-semibold text-sm">
+                Manage visits
+                <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </>

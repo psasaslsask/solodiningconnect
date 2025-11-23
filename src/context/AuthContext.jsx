@@ -11,8 +11,8 @@ import diners from "../data/diners.json";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);            // Firebase user
-  const [profile, setProfile] = useState(null);      // Diner profile
+  const [user, setUser] = useState(null); // Firebase user
+  const [profile, setProfile] = useState(null); // Diner profile
   const [loading, setLoading] = useState(true);
 
   // Watch for Firebase user state changes
@@ -54,8 +54,12 @@ export const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  const isRestaurantUser = !!user && !profile;
+
   return (
-    <AuthContext.Provider value={{ user, profile, signup, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, profile, signup, login, logout, isRestaurantUser }}
+    >
       {!loading && children}
     </AuthContext.Provider>
   );
