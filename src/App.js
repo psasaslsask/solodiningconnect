@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import HomePage from "./pages/HomePage";
+import HomeRouter from "./pages/HomeRouter";
 import ProfilePage from "./pages/ProfilePage";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RestaurantList from "./pages/RestaurantList";
 import DinersPage from "./pages/DinersPage";
 import MyBookings from "./pages/MyBookings";  // ⭐ ADDED
+import RestaurantDashboard from "./pages/RestaurantDashboard";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
             path="/home"
             element={
               <ProtectedRoute>
-                <HomePage />
+                <HomeRouter />
               </ProtectedRoute>
             }
           />
@@ -50,6 +51,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <DinersPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/restaurant-dashboard"
+            element={
+              <ProtectedRoute restaurantOnly>
+                <RestaurantDashboard />
               </ProtectedRoute>
             }
           />
