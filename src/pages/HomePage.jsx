@@ -56,24 +56,6 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Restaurant Dashboard Card */}
-          <div
-            onClick={() => navigate("/restaurant-dashboard")}
-            className="cursor-pointer bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition text-center"
-          >
-            <img
-              src="https://img.freepik.com/free-photo/happy-waiter-serving-food-group-cheerful-friends-pub_637285-8326.jpg"
-              alt="Restaurant Dashboard"
-              className="w-full h-48 object-cover rounded-xl mb-4"
-            />
-            <h2 className="text-2xl font-semibold text-blue-600 mb-2">
-              Restaurant Dashboard
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Track reservations and see guest details for your venue.
-            </p>
-          </div>
-
           {/* ⭐ MY BOOKINGS Card */}
           <div
             onClick={() => navigate("/bookings")}
