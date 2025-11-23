@@ -12,7 +12,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6 py-16">
           <div className="text-center space-y-4 mb-14">
             <span className="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-400/30">
-              Solo-friendly dining, made polished
+              Solo-friendly dining
             </span>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
               Welcome to SoloDiningConnect 🍽️
