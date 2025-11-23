@@ -5,29 +5,51 @@ export default function WelcomePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center px-6">
-      <h1 className="text-xl font-bold mb-2">SOLO DINING CONNECT</h1>
-      <p className="text-gray-600 mb-6 text-sm">A Safe & Social Dining Experience</p>
+    <div className="min-h-screen bg-neutral-100 flex items-center justify-center px-4">
+      <div className="bg-white rounded-3xl shadow-sm border border-slate-200 w-full max-w-3xl overflow-hidden">
+        <div className="grid md:grid-cols-2">
+          <div className="p-8 md:p-10 flex flex-col justify-center gap-4">
+            <p className="text-xs uppercase tracking-[0.25em] text-slate-500 font-semibold">Solo Dining Connect</p>
+            <h1 className="text-3xl md:text-4xl font-semibold text-slate-900 leading-tight">
+              Safe, social dining—built for solo explorers.
+            </h1>
+            <p className="text-slate-600 text-sm md:text-base">
+              Discover solo-friendly restaurants, book in seconds, and meet like-minded diners. Owners get a dashboard to manage reservations and publish deals.
+            </p>
 
-      <img
-        src="https://illustrations.popsy.co/violet/dining.svg"
-        alt="dining illustration"
-        className="rounded-xl mb-6 w-64"
-      />
+            <div className="grid gap-3">
+              <button
+                onClick={() => navigate("/signup")}
+                className="w-full bg-slate-900 text-white font-semibold py-3 rounded-xl hover:bg-slate-800 transition shadow-sm"
+              >
+                I’m a restaurant owner
+              </button>
 
-      <button
-        onClick={() => navigate("/signup")}
-        className="w-full bg-blue-500 text-white font-semibold py-3 rounded-full mb-4 hover:bg-blue-600 transition"
-      >
-        I’m a restaurant owner
-      </button>
+              <button
+                onClick={() => navigate("/signup")}
+                className="w-full bg-white text-slate-900 border border-slate-200 font-semibold py-3 rounded-xl hover:border-slate-300 hover:bg-slate-50 transition"
+              >
+                I’m a solo diner
+              </button>
+            </div>
+          </div>
 
-      <button
-        onClick={() => navigate("/signup")}
-        className="w-full bg-blue-500 text-white font-semibold py-3 rounded-full hover:bg-blue-600 transition"
-      >
-        I’m a solo diner
-      </button>
+          <div className="bg-slate-900 text-white p-8 md:p-10 flex flex-col justify-between">
+            <div>
+              <p className="text-sm font-semibold">Live preview</p>
+              <h2 className="text-2xl font-semibold mt-2">Book, chat, and dine together</h2>
+              <p className="text-slate-200 mt-3 text-sm">
+                Streamlined booking flows, clarity on solo-friendly vibes, and community features for diners who love exploring.
+              </p>
+            </div>
+            <img
+              src="https://illustrations.popsy.co/violet/dining.svg"
+              alt="dining illustration"
+              className="rounded-2xl shadow-lg mt-8"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

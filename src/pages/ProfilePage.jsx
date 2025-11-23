@@ -14,38 +14,35 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <div className="bg-white p-6 rounded-2xl shadow-md max-w-md mx-auto text-center">
-        <img
-          src={profile?.image || "/images/default-avatar.png"}
-          alt={profile?.name || "User"}
-          className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
-        />
-        <h1 className="text-2xl font-bold text-blue-600">
-          {profile?.name || user.email}
-        </h1>
-        <p className="text-gray-500 mb-4">
-          {profile?.location || "Location not set"}
-        </p>
+    <div className="min-h-screen bg-slate-50 px-4 py-10">
+      <div className="max-w-xl mx-auto bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+        <div className="bg-slate-900 h-28" />
+        <div className="-mt-14 px-8 pb-8 text-center">
+          <img
+            src={profile?.image || "/images/default-avatar.png"}
+            alt={profile?.name || "User"}
+            className="w-28 h-28 mx-auto rounded-full border-4 border-white shadow-xl object-cover"
+          />
+          <h1 className="text-3xl font-black text-slate-900 mt-4">{profile?.name || user.email}</h1>
+          <p className="text-slate-500">{profile?.location || "Location not set"}</p>
 
-        {profile && (
-          <>
-            <p className="text-gray-600 text-sm italic mb-1">{profile.style}</p>
-            <p className="text-gray-600 text-sm mb-1">
-              Favorite Cuisine: {profile.favoriteCuisine}
-            </p>
-            <p className="text-gray-600 text-sm">
-              Solo Style: {profile.soloStyle?.join(", ")}
-            </p>
-          </>
-        )}
+          {profile && (
+            <div className="mt-4 space-y-1 text-slate-700">
+              <p className="text-sm italic">{profile.style}</p>
+              <p className="text-sm">Favorite cuisine: {profile.favoriteCuisine}</p>
+              <p className="text-sm">Solo style: {profile.soloStyle?.join(", ")}</p>
+            </div>
+          )}
 
-        <button
-          onClick={logout}
-          className="mt-6 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-        >
-          Logout
-        </button>
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={logout}
+              className="bg-rose-500 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-rose-600 transition shadow-md"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
