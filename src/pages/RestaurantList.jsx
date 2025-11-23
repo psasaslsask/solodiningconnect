@@ -78,6 +78,44 @@ export default function RestaurantList() {
     },
   ];
 
+  const categoryFields = [
+    {
+      key: "ambiance",
+      label: "Ambiance",
+      description: "Atmosphere, seating comfort, lighting",
+    },
+    {
+      key: "service",
+      label: "Service",
+      description: "Friendliness, attentiveness, solo-diner welcome",
+    },
+    {
+      key: "menu",
+      label: "Menu",
+      description: "Options for solo diners, flexibility, value",
+    },
+    {
+      key: "reviews",
+      label: "Reviews",
+      description: "Reputation and guest feedback",
+    },
+    {
+      key: "wait_time",
+      label: "Wait Time",
+      description: "Typical seating and service speed",
+    },
+    {
+      key: "safety_vibe",
+      label: "Safety Vibe",
+      description: "Comfort dining alone, neighborhood feel",
+    },
+    {
+      key: "tech_amenities",
+      label: "Tech Amenities",
+      description: "Wi‑Fi, outlets, payment tech",
+    },
+  ];
+
   useEffect(() => {
     setRestaurants(restaurantsData);
   }, []);
@@ -145,6 +183,34 @@ export default function RestaurantList() {
 
     const bookingId = uuidv4();
 
+    const bookingPayload = {
+      id: bookingId,
+      restaurantId: selectedRestaurant.id,
+      restaurantName: selectedRestaurant.name,
+      restaurantImage: selectedRestaurant.image,
+      date: bookingData.date,
+      time: bookingData.time,
+      guests: bookingData.guests,
+      createdAt: new Date().toISOString(),
+      dinerId: profile.id,
+      dinerName: profile.name,
+      dinerEmail: profile.email,
+    };
+
+    await setDoc(
+      doc(db, "bookings", profile.id.toString(), "items", bookingId),
+      bookingPayload
+    );
+
+    await setDoc(
+      doc(
+        db,
+        "restaurantBookings",
+        selectedRestaurant.id.toString(),
+        "items",
+        bookingId
+      ),
+      bookingPayload
     const bookingPayload = {
       id: bookingId,
       restaurantId: selectedRestaurant.id,

@@ -30,9 +30,22 @@ export default function MyBookings() {
 
   // Cancel booking
   const handleCancel = async (booking) => {
+  const handleCancel = async (booking) => {
     await deleteDoc(
       doc(db, "bookings", profile.id.toString(), "items", booking.id)
     );
+
+    if (booking.restaurantId) {
+      await deleteDoc(
+        doc(
+          db,
+          "restaurantBookings",
+          booking.restaurantId.toString(),
+          "items",
+          booking.id
+        )
+      );
+    }
 
     if (booking.restaurantId) {
       await deleteDoc(
@@ -63,6 +76,22 @@ export default function MyBookings() {
       time: editBooking.time,
       guests: editBooking.guests,
     });
+
+    if (editBooking.restaurantId) {
+      const restaurantRef = doc(
+        db,
+        "restaurantBookings",
+        editBooking.restaurantId.toString(),
+        "items",
+        editBooking.id
+      );
+
+      await updateDoc(restaurantRef, {
+        date: editBooking.date,
+        time: editBooking.time,
+        guests: editBooking.guests,
+      });
+    }
 
     if (editBooking.restaurantId) {
       const restaurantRef = doc(
