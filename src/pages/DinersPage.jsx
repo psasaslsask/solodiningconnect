@@ -22,10 +22,22 @@ export default function DinersPage() {
   const [chatOpen, setChatOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [chatLog, setChatLog] = useState([]);
+  const [blockedDiners, setBlockedDiners] = useState([]);
 
   useEffect(() => {
     setDiners(dinersData);
   }, []);
+
+  useEffect(() => {
+    const storedBlocked = localStorage.getItem("blockedDiners");
+    if (storedBlocked) {
+      setBlockedDiners(JSON.parse(storedBlocked));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("blockedDiners", JSON.stringify(blockedDiners));
+  }, [blockedDiners]);
 
   // 👉 Open chat + create chat doc if needed + load messages
   const openChat = async (diner) => {
@@ -64,6 +76,23 @@ export default function DinersPage() {
     setChatLog([]);
   };
 
+  const blockDiner = (diner) => {
+    const confirmBlock = window.confirm(
+      `Block ${diner.name}? They will be hidden from your list and won't be able to chat with you.\nYou can unblock them by clearing your blocked list later.`
+    );
+
+    if (!confirmBlock) return;
+
+    setBlockedDiners((prev) => {
+      if (prev.includes(diner.id)) return prev;
+      return [...prev, diner.id];
+    });
+
+    if (selectedDiner?.id === diner.id) {
+      closeChat();
+    }
+  };
+
   // 👉 Send message to Firestore
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -91,7 +120,9 @@ export default function DinersPage() {
     );
   }
 
-  const otherDiners = diners.filter((d) => d.id !== profile.id);
+  const otherDiners = diners.filter(
+    (d) => d.id !== profile.id && !blockedDiners.includes(d.id)
+  );
 
   return (
     <div className="min-h-screen bg-neutral-100 relative px-4 py-8">
@@ -135,6 +166,12 @@ export default function DinersPage() {
         </span>
       </div>
 
+      {blockedDiners.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl p-4 mb-6 text-sm">
+          You have blocked {blockedDiners.length} diner{blockedDiners.length > 1 ? "s" : ""}. Clear your browser storage to reset.
+        </div>
+      )}
+
       {/* Diners Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {otherDiners.map((diner) => (
@@ -169,6 +206,12 @@ export default function DinersPage() {
                   className="mt-3 w-full bg-slate-900 text-white px-4 py-2 rounded-xl font-semibold hover:bg-slate-800 transition shadow-sm"
                 >
                   Start chat
+                </button>
+                <button
+                  onClick={() => blockDiner(diner)}
+                  className="mt-2 w-full border border-red-200 text-red-700 px-4 py-2 rounded-xl font-semibold hover:bg-red-50 transition"
+                >
+                  Block diner
                 </button>
               </div>
             </div>
