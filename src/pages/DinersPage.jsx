@@ -93,6 +93,10 @@ export default function DinersPage() {
     }
   };
 
+  const unblockDiner = (dinerId) => {
+    setBlockedDiners((prev) => prev.filter((id) => id !== dinerId));
+  };
+
   // 👉 Send message to Firestore
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -123,6 +127,8 @@ export default function DinersPage() {
   const otherDiners = diners.filter(
     (d) => d.id !== profile.id && !blockedDiners.includes(d.id)
   );
+
+  const blockedProfiles = diners.filter((d) => blockedDiners.includes(d.id));
 
   return (
     <div className="min-h-screen bg-neutral-100 relative px-4 py-8">
@@ -166,9 +172,40 @@ export default function DinersPage() {
         </span>
       </div>
 
-      {blockedDiners.length > 0 && (
-        <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl p-4 mb-6 text-sm">
-          You have blocked {blockedDiners.length} diner{blockedDiners.length > 1 ? "s" : ""}. Clear your browser storage to reset.
+      {blockedProfiles.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-4 mb-6 text-sm">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="font-semibold">You have blocked {blockedProfiles.length} diner{blockedProfiles.length > 1 ? "s" : ""}.</p>
+              <p className="text-amber-800 text-xs mt-1">They are hidden from your list. You can unblock them anytime below.</p>
+              <ul className="mt-3 space-y-2">
+                {blockedProfiles.map((diner) => (
+                  <li
+                    key={diner.id}
+                    className="flex items-center justify-between bg-white/70 border border-amber-200 rounded-xl px-3 py-2"
+                  >
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={diner.image}
+                        alt={diner.name}
+                        className="w-8 h-8 rounded-full object-cover border border-amber-100"
+                      />
+                      <div>
+                        <p className="text-sm font-semibold text-slate-900">{diner.name}</p>
+                        <p className="text-xs text-amber-800">{diner.location}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => unblockDiner(diner.id)}
+                      className="text-xs font-semibold text-amber-900 border border-amber-300 rounded-lg px-3 py-1 hover:bg-amber-100 transition"
+                    >
+                      Unblock
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       )}
 
