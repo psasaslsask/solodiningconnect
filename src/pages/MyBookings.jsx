@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { db } from "../firebase";
 import {
   collection,
@@ -13,6 +13,7 @@ export default function MyBookings() {
   const { profile } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [editBooking, setEditBooking] = useState(null);
+  const [now, setNow] = useState(new Date());
 
   // Fetch bookings in real time
   useEffect(() => {
@@ -27,6 +28,26 @@ export default function MyBookings() {
 
     return unsubscribe;
   }, [profile]);
+
+  // Re-check current time so past bookings drop off without data changes
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
+  const upcomingBookings = useMemo(() => {
+    return bookings
+      .filter((booking) => {
+        if (!booking.date) return true;
+        const dateTime = new Date(`${booking.date}T${booking.time || "00:00"}`);
+        return dateTime >= now;
+      })
+      .sort((a, b) => {
+        const aDate = new Date(`${a.date}T${a.time || "00:00"}`);
+        const bDate = new Date(`${b.date}T${b.time || "00:00"}`);
+        return aDate - bDate;
+      });
+  }, [bookings, now]);
 
   // Cancel booking
   const handleCancel = async (booking) => {
@@ -107,14 +128,14 @@ export default function MyBookings() {
           </div>
         </div>
 
-        {bookings.length === 0 ? (
+        {upcomingBookings.length === 0 ? (
           <div className="bg-white border border-dashed border-slate-300 rounded-3xl p-8 text-center shadow-sm">
             <p className="text-lg font-semibold text-slate-800">No bookings yet</p>
             <p className="text-slate-600 mt-2">Browse restaurants and tap “Book now” to see your plans here.</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-6">
-            {bookings.map((booking) => (
+            {upcomingBookings.map((booking) => (
               <div
                 key={booking.id}
                 className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition"

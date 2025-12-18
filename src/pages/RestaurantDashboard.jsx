@@ -9,6 +9,7 @@ export default function RestaurantDashboard() {
     restaurantsData[0]?.id || null
   );
   const [bookings, setBookings] = useState([]);
+  const [now, setNow] = useState(new Date());
 
   // Subscribe to bookings for the selected restaurant
   useEffect(() => {
@@ -23,16 +24,31 @@ export default function RestaurantDashboard() {
 
     const unsubscribe = onSnapshot(ref, (snapshot) => {
       const items = snapshot.docs.map((d) => d.data());
-      items.sort((a, b) => {
-        const aDate = new Date(`${a.date}T${a.time || "00:00"}`);
-        const bDate = new Date(`${b.date}T${b.time || "00:00"}`);
-        return aDate - bDate;
-      });
       setBookings(items);
     });
 
     return unsubscribe;
   }, [selectedRestaurantId]);
+
+  // Tick time so past bookings drop away without data churn
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
+  const upcomingBookings = useMemo(() => {
+    return bookings
+      .filter((booking) => {
+        if (!booking.date) return true;
+        const dateTime = new Date(`${booking.date}T${booking.time || "00:00"}`);
+        return dateTime >= now;
+      })
+      .sort((a, b) => {
+        const aDate = new Date(`${a.date}T${a.time || "00:00"}`);
+        const bDate = new Date(`${b.date}T${b.time || "00:00"}`);
+        return aDate - bDate;
+      });
+  }, [bookings, now]);
 
   const selectedRestaurant = useMemo(
     () =>
@@ -40,7 +56,7 @@ export default function RestaurantDashboard() {
     [selectedRestaurantId]
   );
 
-  const upcomingBooking = bookings.find((booking) => booking.date && booking.time);
+  const upcomingBooking = upcomingBookings.find((booking) => booking.date && booking.time);
 
   return (
     <>
@@ -90,7 +106,7 @@ export default function RestaurantDashboard() {
               <div className="flex space-x-4 mt-4 md:mt-0">
                 <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
                   <p className="text-sm text-gray-500">Total bookings</p>
-                  <p className="text-2xl font-bold text-blue-700">{bookings.length}</p>
+                  <p className="text-2xl font-bold text-blue-700">{upcomingBookings.length}</p>
                 </div>
                 <div className="bg-green-50 border border-green-100 rounded-lg px-4 py-3">
                   <p className="text-sm text-gray-500">Next arrival</p>
@@ -106,11 +122,11 @@ export default function RestaurantDashboard() {
 
           <div className="bg-white rounded-xl shadow p-4">
             <h3 className="text-lg font-semibold text-gray-800 mb-3">Reservations</h3>
-            {bookings.length === 0 ? (
+            {upcomingBookings.length === 0 ? (
               <p className="text-gray-600">No bookings yet for this restaurant.</p>
             ) : (
               <div className="grid md:grid-cols-2 gap-4">
-                {bookings.map((booking) => (
+                {upcomingBookings.map((booking) => (
                   <div
                     key={booking.id}
                     className="border rounded-xl p-4 hover:shadow transition bg-gray-50"
