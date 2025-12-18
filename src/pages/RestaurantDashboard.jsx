@@ -22,12 +22,19 @@ export default function RestaurantDashboard() {
     );
 
     const unsubscribe = onSnapshot(ref, (snapshot) => {
-      const items = snapshot.docs.map((d) => d.data());
-      items.sort((a, b) => {
-        const aDate = new Date(`${a.date}T${a.time || "00:00"}`);
-        const bDate = new Date(`${b.date}T${b.time || "00:00"}`);
-        return aDate - bDate;
-      });
+      const now = new Date();
+      const items = snapshot.docs
+        .map((d) => d.data())
+        .filter((booking) => {
+          if (!booking.date) return true;
+          const dateTime = new Date(`${booking.date}T${booking.time || "00:00"}`);
+          return dateTime >= now;
+        })
+        .sort((a, b) => {
+          const aDate = new Date(`${a.date}T${a.time || "00:00"}`);
+          const bDate = new Date(`${b.date}T${b.time || "00:00"}`);
+          return aDate - bDate;
+        });
       setBookings(items);
     });
 
