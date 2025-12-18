@@ -6,10 +6,8 @@ import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
 export default function RestaurantHomePage() {
-  const { user } = useAuth();
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState(
-    restaurantsData[0]?.id || null
-  );
+  const { user, restaurantId } = useAuth();
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [deals, setDeals] = useState([]);
   const [dealForm, setDealForm] = useState({
@@ -23,6 +21,13 @@ export default function RestaurantHomePage() {
     contactEmail: user?.email || "",
     specialNotes: "",
   });
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    if (restaurantId) {
+      setSelectedRestaurantId(restaurantId);
+    }
+  }, [restaurantId]);
 
   // Sync bookings stream for selected restaurant
   useEffect(() => {
@@ -37,16 +42,17 @@ export default function RestaurantHomePage() {
 
     const unsubscribe = onSnapshot(ref, (snapshot) => {
       const items = snapshot.docs.map((doc) => doc.data());
-      items.sort((a, b) => {
-        const aDate = new Date(`${a.date}T${a.time || "00:00"}`);
-        const bDate = new Date(`${b.date}T${b.time || "00:00"}`);
-        return aDate - bDate;
-      });
       setBookings(items);
     });
 
     return unsubscribe;
   }, [selectedRestaurantId]);
+
+  // Tick time so past bookings drop away without data churn
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   // Sync existing deals
   useEffect(() => {
@@ -93,10 +99,28 @@ export default function RestaurantHomePage() {
     [selectedRestaurantId]
   );
 
-  const nextArrival = bookings.find((booking) => booking.date && booking.time);
+  const upcomingBookings = useMemo(() => {
+    return bookings
+      .filter((booking) => {
+        if (!booking.date) return true;
+        const dateTime = new Date(`${booking.date}T${booking.time || "00:00"}`);
+        return dateTime >= now;
+      })
+      .sort((a, b) => {
+        const aDate = new Date(`${a.date}T${a.time || "00:00"}`);
+        const bDate = new Date(`${b.date}T${b.time || "00:00"}`);
+        return aDate - bDate;
+      });
+  }, [bookings, now]);
+
+  const nextArrival = upcomingBookings.find((booking) => booking.date && booking.time);
 
   const handleDealSubmit = async (e) => {
     e.preventDefault();
+    if (!selectedRestaurantId) {
+      alert("No restaurant assigned to this account.");
+      return;
+    }
     const dealsRef = collection(
       db,
       "restaurantDeals",
@@ -117,6 +141,10 @@ export default function RestaurantHomePage() {
 
   const handleDetailsSave = async (e) => {
     e.preventDefault();
+    if (!selectedRestaurantId) {
+      alert("No restaurant assigned to this account.");
+      return;
+    }
     const profileRef = doc(
       db,
       "restaurantProfiles",
@@ -150,24 +178,28 @@ export default function RestaurantHomePage() {
             </div>
 
             <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm w-full md:w-80">
-              <label className="block text-sm font-semibold text-slate-800 mb-1" htmlFor="restaurant-selector">
+              <label className="block text-sm font-semibold text-slate-800 mb-1">
                 Your restaurant
               </label>
-              <p className="text-xs text-slate-500 mb-2">Switch venues to manage bookings and deals per location.</p>
-              <select
-                id="restaurant-selector"
-                value={selectedRestaurantId || ""}
-                onChange={(e) => setSelectedRestaurantId(Number(e.target.value))}
-                className="w-full border border-slate-300 bg-white text-slate-900 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              >
-                {restaurantsData.map((restaurant) => (
-                  <option key={restaurant.id} value={restaurant.id} className="text-gray-900">
-                    {restaurant.name}
-                  </option>
-                ))}
-              </select>
+              {selectedRestaurantId ? (
+                <>
+                  <p className="text-base font-semibold text-slate-900">
+                    {restaurantsData.find((r) => r.id === selectedRestaurantId)?.name || "Assigned restaurant"}
+                  </p>
+                  <p className="text-xs text-slate-500 mt-1">You’re limited to managing your assigned restaurant.</p>
+                </>
+              ) : (
+                <p className="text-sm text-slate-500">No restaurant assigned to this account.</p>
+              )}
             </div>
           </header>
+
+          {!selectedRestaurant && (
+            <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 text-slate-700">
+              <p className="font-semibold">No restaurant assigned</p>
+              <p className="text-sm text-slate-600">This account doesn’t have an assigned restaurant to manage.</p>
+            </div>
+          )}
 
           {selectedRestaurant && (
             <div className="grid md:grid-cols-3 gap-4">
@@ -185,7 +217,7 @@ export default function RestaurantHomePage() {
                   <div className="grid grid-cols-2 gap-3 w-full md:w-auto">
                     <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 shadow-sm">
                       <p className="text-xs text-slate-500">Total bookings</p>
-                      <p className="text-3xl font-bold text-slate-900">{bookings.length}</p>
+                      <p className="text-3xl font-bold text-slate-900">{upcomingBookings.length}</p>
                     </div>
                     <div className="rounded-xl bg-blue-50 border border-blue-100 p-3 shadow-sm">
                       <p className="text-xs text-blue-800/80">Next arrival</p>
@@ -220,11 +252,11 @@ export default function RestaurantHomePage() {
                   </span>
                 </div>
 
-                {bookings.length === 0 ? (
+                {upcomingBookings.length === 0 ? (
                   <p className="text-slate-600">No bookings yet for this restaurant.</p>
                 ) : (
                   <div className="grid md:grid-cols-2 gap-4">
-                    {bookings.map((booking) => (
+                    {upcomingBookings.map((booking) => (
                       <div
                         key={booking.id}
                         className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"

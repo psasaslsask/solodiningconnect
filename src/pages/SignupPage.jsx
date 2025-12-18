@@ -5,12 +5,17 @@ import Navbar from "../components/Navbar";
 import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { updateProfile, reload } from "firebase/auth"; // 👈 reload added
+import restaurantsData from "../data/restaurants.json";
 
 export default function SignupPage() {
   const { signup } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("diner");
+  const [location, setLocation] = useState("");
+  const [vibe, setVibe] = useState("");
+  const [restaurantId, setRestaurantId] = useState(restaurantsData[0]?.id || "");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -31,11 +36,33 @@ export default function SignupPage() {
       await setDoc(doc(db, "users", auth.currentUser.uid), {
         name,
         email,
+        role,
         createdAt: new Date(),
-      });      
+        restaurantId: role === "restaurant" ? restaurantId : null,
+      });
 
-      // 5️⃣ Redirect to Home Page
-      navigate("/home");
+      if (role === "diner") {
+        const dinerProfile = {
+          name,
+          email,
+          location: location || "Unknown",
+          style: vibe || "Solo diner",
+          favoriteCuisine: "TBD",
+          rating: 8,
+          bio: "New to SoloDiningConnect!",
+          cuisines: [],
+          availability: [],
+          soloStyle: [],
+          budget: "$$",
+          image: "https://placehold.co/400x400?text=Diner",
+          createdAt: new Date(),
+        };
+
+        await setDoc(doc(db, "diners", auth.currentUser.uid), dinerProfile);
+        navigate("/home");
+      } else {
+        navigate("/restaurant-dashboard");
+      }
     } catch (err) {
       alert(err.message);
       console.error("Signup error:", err);
@@ -76,6 +103,67 @@ export default function SignupPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+
+            <div className="space-y-2">
+              <p className="text-sm font-semibold text-slate-700">Account type</p>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 text-sm text-slate-700">
+                  <input
+                    type="radio"
+                    value="diner"
+                    checked={role === "diner"}
+                    onChange={(e) => setRole(e.target.value)}
+                  />
+                  I'm a diner
+                </label>
+                <label className="flex items-center gap-2 text-sm text-slate-700">
+                  <input
+                    type="radio"
+                    value="restaurant"
+                    checked={role === "restaurant"}
+                    onChange={(e) => setRole(e.target.value)}
+                  />
+                  I'm a restaurant owner
+                </label>
+              </div>
+            </div>
+
+            {role === "diner" && (
+              <>
+                <input
+                  type="text"
+                  placeholder="Your city (optional)"
+                  className="w-full border rounded-md p-2"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Your solo dining vibe (optional)"
+                  className="w-full border rounded-md p-2"
+                  value={vibe}
+                  onChange={(e) => setVibe(e.target.value)}
+                />
+              </>
+            )}
+
+            {role === "restaurant" && (
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700 block">Select your restaurant</label>
+                <select
+                  value={restaurantId}
+                  onChange={(e) => setRestaurantId(Number(e.target.value))}
+                  className="w-full border rounded-md p-2"
+                >
+                  {restaurantsData.map((restaurant) => (
+                    <option key={restaurant.id} value={restaurant.id}>
+                      {restaurant.name}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-slate-500">You’ll only manage this restaurant’s bookings and details.</p>
+              </div>
+            )}
 
             <button
               type="submit"
