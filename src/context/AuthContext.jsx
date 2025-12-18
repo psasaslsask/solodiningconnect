@@ -6,7 +6,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import diners from "../data/diners.json";
 
 const AuthContext = createContext();
@@ -83,6 +83,22 @@ export const AuthProvider = ({ children }) => {
     });
     return () => unsubscribe();
   }, []);
+
+  // Keep diner profile in sync after login/signup
+  useEffect(() => {
+    if (!user || role === "restaurant") return;
+
+    const dinerRef = doc(db, "diners", user.uid);
+    const unsubscribe = onSnapshot(dinerRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const dinerProfile = { id: user.uid, ...snapshot.data() };
+        setProfile(dinerProfile);
+        localStorage.setItem("currentUserId", dinerProfile.id);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [user, role]);
 
   // Auth functions
   const signup = (email, password) =>
