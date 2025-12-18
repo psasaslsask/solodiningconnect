@@ -15,10 +15,10 @@ export default function HomePage() {
               <div className="space-y-3">
                 <p className="text-xs font-semibold text-slate-500 tracking-[0.2em]">SOLO DINING CONNECT</p>
                 <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900">
-                  A calm hub for planning meals out
+                  Platform that supports solo diners
                 </h1>
                 <p className="text-slate-600 max-w-3xl text-lg leading-relaxed">
-                  Find restaurants that welcome solo diners, connect with locals, and keep your reservations tidy without a lot of extra fuss.
+                  Find restaurants that welcome solo diners and connect with others.
                 </p>
               </div>
 
@@ -54,7 +54,7 @@ export default function HomePage() {
               </div>
               <h2 className="text-2xl font-semibold text-slate-900 mb-2">Explore Restaurants</h2>
               <p className="text-slate-600 text-sm leading-relaxed pr-4">
-                Find solo-friendly spots by ambiance, seating style, and what regulars love.
+                Find solo-friendly spots by ambiance, seating style, and what others love.
               </p>
               <div className="mt-5 inline-flex items-center text-slate-900 font-semibold text-sm">
                 View listings
@@ -76,7 +76,7 @@ export default function HomePage() {
               </div>
               <h2 className="text-2xl font-semibold text-slate-900 mb-2">Explore Diners</h2>
               <p className="text-slate-600 text-sm leading-relaxed">
-                Meet fellow solo diners, swap recommendations, and plan your next table.
+                Meet fellow solo diners and plan your next table.
               </p>
               <div className="mt-5 inline-flex items-center text-slate-900 font-semibold text-sm">
                 Browse community
