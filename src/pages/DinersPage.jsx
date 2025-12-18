@@ -188,7 +188,7 @@ export default function DinersPage() {
       </div>
 
       <div className="mb-10">
-        <MatchMe currentUserId={profile.id} />
+        <MatchMe currentUserId={profile.id} currentUser={profile} dinersList={diners} />
       </div>
 
       <div className="flex items-center justify-between mb-4">

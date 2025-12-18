@@ -2,13 +2,15 @@ import React, { useMemo } from "react";
 import diners from "../data/diners.json";
 import { rankCandidates } from "../utils/matchUtils";
 
-export default function MatchMe({ currentUserId = 1 }) {
-  const me = diners.find(d => d.id === currentUserId);
+export default function MatchMe({ currentUserId = 1, currentUser, dinersList = diners }) {
+  const pool = dinersList || [];
+  const me = currentUser ?? pool.find((d) => d.id === currentUserId);
 
   const bestMatch = useMemo(() => {
-    const ranked = rankCandidates(me, diners, 1);
+    if (!me) return null;
+    const ranked = rankCandidates(me, pool, 1);
     return ranked[0];
-  }, [me]);
+  }, [me, pool]);
 
   if (!bestMatch) return null;
 
