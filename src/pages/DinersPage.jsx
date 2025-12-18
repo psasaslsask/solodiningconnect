@@ -11,7 +11,8 @@ import {
   onSnapshot,
   updateDoc,
   arrayUnion,
-  Timestamp
+  Timestamp,
+  collection
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -25,7 +26,36 @@ export default function DinersPage() {
   const [blockedDiners, setBlockedDiners] = useState([]);
 
   useEffect(() => {
-    setDiners(dinersData);
+    const baseDiners = dinersData;
+    setDiners(baseDiners);
+
+    const dinersRef = collection(db, "diners");
+    const unsubscribe = onSnapshot(dinersRef, (snapshot) => {
+      const firebaseDiners = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      const merged = [...baseDiners];
+
+      firebaseDiners.forEach((diner) => {
+        const matchIndex = merged.findIndex(
+          (d) =>
+            d.id === diner.id ||
+            (d.email && diner.email && d.email.toLowerCase() === diner.email.toLowerCase())
+        );
+
+        if (matchIndex !== -1) {
+          merged[matchIndex] = { ...merged[matchIndex], ...diner };
+        } else {
+          merged.push(diner);
+        }
+      });
+
+      setDiners(merged);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
