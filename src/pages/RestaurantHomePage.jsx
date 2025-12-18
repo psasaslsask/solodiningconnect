@@ -23,6 +23,7 @@ export default function RestaurantHomePage() {
     contactEmail: user?.email || "",
     specialNotes: "",
   });
+  const [now, setNow] = useState(new Date());
 
   // Sync bookings stream for selected restaurant
   useEffect(() => {
@@ -37,16 +38,17 @@ export default function RestaurantHomePage() {
 
     const unsubscribe = onSnapshot(ref, (snapshot) => {
       const items = snapshot.docs.map((doc) => doc.data());
-      items.sort((a, b) => {
-        const aDate = new Date(`${a.date}T${a.time || "00:00"}`);
-        const bDate = new Date(`${b.date}T${b.time || "00:00"}`);
-        return aDate - bDate;
-      });
       setBookings(items);
     });
 
     return unsubscribe;
   }, [selectedRestaurantId]);
+
+  // Tick time so past bookings drop away without data churn
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   // Sync existing deals
   useEffect(() => {
@@ -93,7 +95,21 @@ export default function RestaurantHomePage() {
     [selectedRestaurantId]
   );
 
-  const nextArrival = bookings.find((booking) => booking.date && booking.time);
+  const upcomingBookings = useMemo(() => {
+    return bookings
+      .filter((booking) => {
+        if (!booking.date) return true;
+        const dateTime = new Date(`${booking.date}T${booking.time || "00:00"}`);
+        return dateTime >= now;
+      })
+      .sort((a, b) => {
+        const aDate = new Date(`${a.date}T${a.time || "00:00"}`);
+        const bDate = new Date(`${b.date}T${b.time || "00:00"}`);
+        return aDate - bDate;
+      });
+  }, [bookings, now]);
+
+  const nextArrival = upcomingBookings.find((booking) => booking.date && booking.time);
 
   const handleDealSubmit = async (e) => {
     e.preventDefault();
@@ -185,7 +201,7 @@ export default function RestaurantHomePage() {
                   <div className="grid grid-cols-2 gap-3 w-full md:w-auto">
                     <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 shadow-sm">
                       <p className="text-xs text-slate-500">Total bookings</p>
-                      <p className="text-3xl font-bold text-slate-900">{bookings.length}</p>
+                      <p className="text-3xl font-bold text-slate-900">{upcomingBookings.length}</p>
                     </div>
                     <div className="rounded-xl bg-blue-50 border border-blue-100 p-3 shadow-sm">
                       <p className="text-xs text-blue-800/80">Next arrival</p>
@@ -220,11 +236,11 @@ export default function RestaurantHomePage() {
                   </span>
                 </div>
 
-                {bookings.length === 0 ? (
+                {upcomingBookings.length === 0 ? (
                   <p className="text-slate-600">No bookings yet for this restaurant.</p>
                 ) : (
                   <div className="grid md:grid-cols-2 gap-4">
-                    {bookings.map((booking) => (
+                    {upcomingBookings.map((booking) => (
                       <div
                         key={booking.id}
                         className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
