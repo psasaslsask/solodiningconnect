@@ -88,6 +88,7 @@ export default function DinersPage() {
   // 👉 Real-time chat listener
   useEffect(() => {
     if (!chatOpen || !selectedDiner || !profile) return;
+    if (!chatOpen || !selectedDiner || !profile) return;
 
     const chatKey = [profile.id, selectedDiner.id].sort().join("_");
     const ref = doc(db, "chats", chatKey);
@@ -98,7 +99,7 @@ export default function DinersPage() {
     });
 
     return unsubscribe;
-  }, [chatOpen, selectedDiner, profile]);
+  }, [chatOpen, selectedDiner, profile?.id]);
 
   const closeChat = () => {
     setChatOpen(false);
