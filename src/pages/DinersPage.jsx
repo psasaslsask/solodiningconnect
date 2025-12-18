@@ -98,7 +98,7 @@ export default function DinersPage() {
     });
 
     return unsubscribe;
-  }, [chatOpen, selectedDiner, profile?.id]);
+  }, [chatOpen, selectedDiner, profile]);
 
   const closeChat = () => {
     setChatOpen(false);
