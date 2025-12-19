@@ -3,13 +3,19 @@ import Navbar from "../components/Navbar";
 import restaurantsData from "../data/restaurants.json";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
+import { useAuth } from "../context/AuthContext";
 
 export default function RestaurantDashboard() {
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState(
-    restaurantsData[0]?.id || null
-  );
+  const { restaurantId } = useAuth();
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    if (restaurantId) {
+      setSelectedRestaurantId(restaurantId);
+    }
+  }, [restaurantId]);
 
   // Subscribe to bookings for the selected restaurant
   useEffect(() => {
@@ -73,23 +79,25 @@ export default function RestaurantDashboard() {
               </p>
             </div>
 
-            <div className="mt-4 md:mt-0">
-              <label className="block text-sm text-gray-600 mb-1">
-                Select a restaurant
-              </label>
-              <select
-                value={selectedRestaurantId || ""}
-                onChange={(e) => setSelectedRestaurantId(Number(e.target.value))}
-                className="border rounded-lg px-3 py-2 bg-white shadow-sm"
-              >
-                {restaurantsData.map((restaurant) => (
-                  <option key={restaurant.id} value={restaurant.id}>
-                    {restaurant.name}
-                  </option>
-                ))}
-              </select>
+            <div className="mt-4 md:mt-0 text-sm text-gray-700 bg-white border border-slate-200 rounded-lg px-4 py-3 shadow-sm">
+              {selectedRestaurant ? (
+                <>
+                  <p className="font-semibold">Your restaurant</p>
+                  <p>{selectedRestaurant.name}</p>
+                  <p className="text-xs text-gray-500">You can only manage your assigned restaurant.</p>
+                </>
+              ) : (
+                <p className="text-gray-600">No restaurant assigned to this account.</p>
+              )}
             </div>
           </div>
+
+          {!selectedRestaurant && (
+            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow text-gray-700">
+              <p className="font-semibold">No restaurant assigned</p>
+              <p className="text-sm text-gray-600">This account doesn’t have a restaurant linked yet.</p>
+            </div>
+          )}
 
           {selectedRestaurant && (
             <div className="bg-white p-4 rounded-xl shadow mb-6 flex flex-col md:flex-row md:items-center md:justify-between">

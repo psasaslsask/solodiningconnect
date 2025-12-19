@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { updateProfile, reload } from "firebase/auth"; // 👈 reload added
+import restaurantsData from "../data/restaurants.json";
 
 export default function SignupPage() {
   const { signup } = useAuth();
@@ -14,6 +15,7 @@ export default function SignupPage() {
   const [role, setRole] = useState("diner");
   const [location, setLocation] = useState("");
   const [vibe, setVibe] = useState("");
+  const [restaurantId, setRestaurantId] = useState(restaurantsData[0]?.id || "");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -36,6 +38,7 @@ export default function SignupPage() {
         email,
         role,
         createdAt: new Date(),
+        restaurantId: role === "restaurant" ? restaurantId : null,
       });
 
       if (role === "diner") {
@@ -142,6 +145,24 @@ export default function SignupPage() {
                   onChange={(e) => setVibe(e.target.value)}
                 />
               </>
+            )}
+
+            {role === "restaurant" && (
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700 block">Select your restaurant</label>
+                <select
+                  value={restaurantId}
+                  onChange={(e) => setRestaurantId(Number(e.target.value))}
+                  className="w-full border rounded-md p-2"
+                >
+                  {restaurantsData.map((restaurant) => (
+                    <option key={restaurant.id} value={restaurant.id}>
+                      {restaurant.name}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-slate-500">You’ll only manage this restaurant’s bookings and details.</p>
+              </div>
             )}
 
             <button

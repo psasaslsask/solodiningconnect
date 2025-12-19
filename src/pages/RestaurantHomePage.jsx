@@ -6,10 +6,8 @@ import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
 export default function RestaurantHomePage() {
-  const { user } = useAuth();
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState(
-    restaurantsData[0]?.id || null
-  );
+  const { user, restaurantId } = useAuth();
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [deals, setDeals] = useState([]);
   const [dealForm, setDealForm] = useState({
@@ -24,6 +22,12 @@ export default function RestaurantHomePage() {
     specialNotes: "",
   });
   const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    if (restaurantId) {
+      setSelectedRestaurantId(restaurantId);
+    }
+  }, [restaurantId]);
 
   // Sync bookings stream for selected restaurant
   useEffect(() => {
@@ -113,6 +117,10 @@ export default function RestaurantHomePage() {
 
   const handleDealSubmit = async (e) => {
     e.preventDefault();
+    if (!selectedRestaurantId) {
+      alert("No restaurant assigned to this account.");
+      return;
+    }
     const dealsRef = collection(
       db,
       "restaurantDeals",
@@ -133,6 +141,10 @@ export default function RestaurantHomePage() {
 
   const handleDetailsSave = async (e) => {
     e.preventDefault();
+    if (!selectedRestaurantId) {
+      alert("No restaurant assigned to this account.");
+      return;
+    }
     const profileRef = doc(
       db,
       "restaurantProfiles",
@@ -166,24 +178,28 @@ export default function RestaurantHomePage() {
             </div>
 
             <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm w-full md:w-80">
-              <label className="block text-sm font-semibold text-slate-800 mb-1" htmlFor="restaurant-selector">
+              <label className="block text-sm font-semibold text-slate-800 mb-1">
                 Your restaurant
               </label>
-              <p className="text-xs text-slate-500 mb-2">Switch venues to manage bookings and deals per location.</p>
-              <select
-                id="restaurant-selector"
-                value={selectedRestaurantId || ""}
-                onChange={(e) => setSelectedRestaurantId(Number(e.target.value))}
-                className="w-full border border-slate-300 bg-white text-slate-900 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              >
-                {restaurantsData.map((restaurant) => (
-                  <option key={restaurant.id} value={restaurant.id} className="text-gray-900">
-                    {restaurant.name}
-                  </option>
-                ))}
-              </select>
+              {selectedRestaurantId ? (
+                <>
+                  <p className="text-base font-semibold text-slate-900">
+                    {restaurantsData.find((r) => r.id === selectedRestaurantId)?.name || "Assigned restaurant"}
+                  </p>
+                  <p className="text-xs text-slate-500 mt-1">You’re limited to managing your assigned restaurant.</p>
+                </>
+              ) : (
+                <p className="text-sm text-slate-500">No restaurant assigned to this account.</p>
+              )}
             </div>
           </header>
+
+          {!selectedRestaurant && (
+            <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 text-slate-700">
+              <p className="font-semibold">No restaurant assigned</p>
+              <p className="text-sm text-slate-600">This account doesn’t have an assigned restaurant to manage.</p>
+            </div>
+          )}
 
           {selectedRestaurant && (
             <div className="grid md:grid-cols-3 gap-4">
