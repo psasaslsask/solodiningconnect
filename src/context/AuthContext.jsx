@@ -20,9 +20,9 @@ export const AuthProvider = ({ children }) => {
 
   // Watch Firebase auth state
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-
+  
       const loadProfile = async () => {
         if (!currentUser) {
           setProfile(null);
@@ -32,28 +32,28 @@ export const AuthProvider = ({ children }) => {
           setLoading(false);
           return;
         }
-
+  
         try {
           const userRef = doc(db, "users", currentUser.uid);
           const userSnapshot = await getDoc(userRef);
           const userData = userSnapshot.exists() ? userSnapshot.data() : null;
-
+  
           const resolvedRole = userData?.role || null;
           const resolvedRestaurantId = userData?.restaurantId ?? null;
-
+  
           setRole(resolvedRole);
           setRestaurantId(resolvedRestaurantId);
-
+  
           if (resolvedRole === "restaurant") {
             setProfile(null);
             localStorage.removeItem("currentUserId");
             setLoading(false);
             return;
           }
-
+  
           const dinerRef = doc(db, "diners", currentUser.uid);
           const dinerSnapshot = await getDoc(dinerRef);
-
+  
           if (dinerSnapshot.exists()) {
             const dinerProfile = {
               id: currentUser.uid,
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
                 d.email &&
                 d.email.toLowerCase() === currentUser.email.toLowerCase()
             );
-
+  
             if (diner) {
               setProfile(diner);
               localStorage.setItem("currentUserId", diner.id);
@@ -86,13 +86,16 @@ export const AuthProvider = ({ children }) => {
           setRestaurantId(null);
           localStorage.removeItem("currentUserId");
         }
-
-      setLoading(false);
+  
+        setLoading(false);
+      };
+  
+      loadProfile();
     });
-
-
+  
     return () => unsubscribe();
   }, []);
+  
 
   // Keep diner profile in sync
   useEffect(() => {
